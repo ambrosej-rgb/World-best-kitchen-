@@ -1,31 +1,82 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Dark Mode Logic ---
-    const themeToggleBtn = document.getElementById('theme-toggle');
     const htmlElement = document.documentElement;
+    const themeToggleBtn = document.getElementById('theme-toggle');
 
-    // Check local storage for saved theme, default to light
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    htmlElement.setAttribute('data-theme', savedTheme);
+    if (themeToggleBtn) {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        htmlElement.setAttribute('data-theme', savedTheme);
 
-    themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
-        // Apply new theme
-        htmlElement.setAttribute('data-theme', newTheme);
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
 
-        // Save preference so it persists across page loads
-        localStorage.setItem('theme', newTheme);
-    });
-
-    // --- Mobile Menu Toggle Placeholder ---
     const mobileBtn = document.querySelector('.mobile-menu-btn');
-    mobileBtn.addEventListener('click', () => {
-        console.log("Mobile menu clicked");
-    });
+    const desktopNav = document.querySelector('.desktop-nav');
+    const navContainer = document.querySelector('.nav-container');
 
-    // --- Menu Logic ---
+    if (mobileBtn && desktopNav && navContainer) {
+        const desktopLinks = desktopNav.querySelector('.nav-links');
+
+        if (desktopLinks) {
+            const mobileNav = document.createElement('nav');
+            mobileNav.className = 'mobile-nav';
+            mobileNav.setAttribute('aria-label', 'Mobile Navigation');
+            mobileNav.innerHTML = `
+                <ul class="mobile-nav-links">
+                    ${Array.from(desktopLinks.children).map((listItem) => {
+                const link = listItem.querySelector('a');
+                if (!link) return '';
+                return `<li><a href="${link.getAttribute('href') || '#'}">${link.textContent.trim()}</a></li>`;
+            }).join('')}
+                </ul>
+            `;
+
+            navContainer.appendChild(mobileNav);
+
+            const closeMenu = () => {
+                mobileNav.classList.remove('open');
+                mobileBtn.setAttribute('aria-expanded', 'false');
+                mobileBtn.textContent = '☰';
+            };
+
+            const openMenu = () => {
+                mobileNav.classList.add('open');
+                mobileBtn.setAttribute('aria-expanded', 'true');
+                mobileBtn.textContent = '✕';
+            };
+
+            mobileBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                if (mobileNav.classList.contains('open')) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+            });
+
+            mobileNav.querySelectorAll('a').forEach((link) => {
+                link.addEventListener('click', closeMenu);
+            });
+
+            document.addEventListener('click', (event) => {
+                if (!navContainer.contains(event.target)) {
+                    closeMenu();
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    closeMenu();
+                }
+            });
+        }
+    }
+
     const menuGrid = document.getElementById('menu-grid');
     const filterButtons = document.querySelectorAll('.filter-btn');
 
@@ -36,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        menuGrid.innerHTML = items.map(item => `
+        menuGrid.innerHTML = items.map((item) => `
             <article class="menu-item">
                 <img src="${item.img || item.image || './images/placeholder.jpeg'}" alt="${item.title}">
                 <div class="item-info">
@@ -51,103 +102,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setupFilterButtons() {
-        filterButtons.forEach(button => {
+        filterButtons.forEach((button) => {
             button.addEventListener('click', () => {
                 const category = button.dataset.category;
-                filterButtons.forEach(btn => btn.classList.toggle('active', btn === button));
+                filterButtons.forEach((btn) => btn.classList.toggle('active', btn === button));
 
                 if (category === 'all') {
                     displayMenuItems(window.menuItems);
                     return;
                 }
 
-                displayMenuItems(window.menuItems.filter(item => item.category === category));
+                displayMenuItems(window.menuItems.filter((item) => item.category === category));
             });
         });
     }
 
-    const menuData = window.menuItems;
-    if (!menuData) {
-        console.error('menuItems is not defined. Check that menu.js is loaded before Script.js.');
-        return;
-    }
-
-    displayMenuItems(menuData); document.addEventListener('DOMContentLoaded', () => {
-
-        // --- Dark Mode Logic ---
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
-
-        // Check local storage for saved theme, default to light
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        htmlElement.setAttribute('data-theme', savedTheme);
-
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-            // Apply new theme
-            htmlElement.setAttribute('data-theme', newTheme);
-
-            // Save preference so it persists across page loads
-            localStorage.setItem('theme', newTheme);
-        });
-
-        // --- Mobile Menu Toggle Placeholder ---
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        mobileBtn.addEventListener('click', () => {
-            console.log("Mobile menu clicked");
-        });
-
-        // --- Menu Logic ---
-        const menuGrid = document.getElementById('menu-grid');
-        const filterButtons = document.querySelectorAll('.filter-btn');
-
-        function displayMenuItems(items) {
-            if (!menuGrid) return;
-            if (!items || items.length === 0) {
-                menuGrid.innerHTML = '<p class="empty-state">No menu items available.</p>';
-                return;
-            }
-
-            menuGrid.innerHTML = items.map(item => `
-                <article class="menu-item">
-                    <img src="${item.img || item.image || './images/placeholder.jpeg'}" alt="${item.title}">
-                    <div class="item-info">
-                        <header>
-                            <h4>${item.title}</h4>
-                            <h4 class="price">${item.priceUsd}</h4>
-                        </header>
-                        <p class="item-text">${item.desc}</p>
-                    </div>
-                </article>
-            `).join('');
-        }
-
-        function setupFilterButtons() {
-            filterButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const category = button.dataset.category;
-                    filterButtons.forEach(btn => btn.classList.toggle('active', btn === button));
-
-                    if (category === 'all') {
-                        displayMenuItems(window.menuItems);
-                        return;
-                    }
-
-                    displayMenuItems(window.menuItems.filter(item => item.category === category));
-                });
-            });
-        }
-
-        const menuData = window.menuItems;
-        if (!menuData) {
-            console.error('menuItems is not defined. Check that menu.js is loaded before Script.js.');
-            return;
-        }
-
-        displayMenuItems(menuData);
+    if (menuGrid && filterButtons.length && window.menuItems) {
+        displayMenuItems(window.menuItems);
         setupFilterButtons();
-    });
-    setupFilterButtons();
+    }
 });
