@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
     const htmlElement = document.documentElement;
-    const themeToggleBtn = document.getElementById('theme-toggle');
 
-    if (themeToggleBtn) {
+    if (htmlElement) {
         const savedTheme = localStorage.getItem('theme') || 'light';
         htmlElement.setAttribute('data-theme', savedTheme);
+    }
 
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn && htmlElement) {
         themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme');
+            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
 
             htmlElement.setAttribute('data-theme', newTheme);
@@ -78,10 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const menuGrid = document.getElementById('menu-grid');
-    const filterButtons = document.querySelectorAll('.filter-btn');
+    const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
 
     function displayMenuItems(items) {
         if (!menuGrid) return;
+
         if (!items || items.length === 0) {
             menuGrid.innerHTML = '<p class="empty-state">No menu items available.</p>';
             return;
@@ -89,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         menuGrid.innerHTML = items.map((item) => `
             <article class="menu-item">
-                <img src="${item.img || item.image || './images/placeholder.jpeg'}" alt="${item.title}">
+                <img src="${item.img || item.image || './images/dinning.jpeg'}" alt="${item.title}">
                 <div class="item-info">
                     <header>
                         <h4>${item.title}</h4>
@@ -112,12 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                displayMenuItems(window.menuItems.filter((item) => item.category === category));
+                if (window.menuItems) {
+                    displayMenuItems(window.menuItems.filter((item) => item.category === category));
+                }
             });
         });
     }
 
-    if (menuGrid && filterButtons.length && window.menuItems) {
+    if (menuGrid && filterButtons.length > 0 && window.menuItems) {
         displayMenuItems(window.menuItems);
         setupFilterButtons();
     }
