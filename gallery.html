@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Best Kitchen | Gallery</title>
+    <link rel="stylesheet" href="styling1.css" />
+</head>
+
+<body>
+
+    <!-- Navigation Header -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">World Best Kitchen</a>
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-Us.html">About</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="gallery.html" class="active">Gallery</a></li>
+                    <li><a href="reservation.html">Reservations</a></li>
+                    <li><a href="contact-Us.html">Contact</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" aria-label="Toggle Dark Mode"><span class="icon">🌓</span></button>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <main class="content-container">
+        <section class="gallery-hero">
+            <h1>Visual Experience</h1>
+            <p>Take a glimpse inside World Best Kitchen—our dishes, atmosphere, and hearth.</p>
+        </section>
+
+        <!-- Gallery Grid -->
+        <div class="gallery-grid" id="gallery-grid"></div>
+    </main>
+
+    <!-- Modal Lightbox (Hidden by default) -->
+    <div id="image-modal" class="modal hidden">
+        <span class="close-modal">&times;</span>
+        <img class="modal-content" id="modal-img" alt="Enlarged gallery view">
+        <div id="caption"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 World Best Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="gallery.js"></script>
+</body>
+
+</html>

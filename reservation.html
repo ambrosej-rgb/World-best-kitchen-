@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World's Best Kitchen | Book a Table</title>
+    <link rel="stylesheet" href="styling1.css" />
+</head>
+
+<body>
+
+    <!-- Sticky Navigation -->
+    <header class="main-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo">World Best Kitchen</a>
+
+            <nav class="desktop-nav">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-Us.html">About</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="reservation.html" class="active">Reservations</a></li>
+                    <li><a href="contact-Us.html">Contact</a></li>
+                </ul>
+            </nav>
+
+            <button id="theme-toggle" aria-label="Toggle Dark Mode">
+                <span class="icon">🌓</span>
+            </button>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </header>
+
+    <!-- Reservation Header & Form -->
+    <main class="reservation-container">
+        <section class="reservation-hero">
+            <h1>Reserve Your Table</h1>
+            <p>Join us for an unforgettable wood-fired dining experience.</p>
+        </section>
+
+        <section class="form-wrapper">
+            <!-- Confirmation banner (hidden by default) -->
+            <div id="booking-alert" class="alert hidden"></div>
+
+            <form id="reservation-form" novalidate>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="full-name">Full Name </label>
+                        <input type="text" id="full-name" placeholder="John Doe" required>
+                        <small class="error-msg"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number </label>
+                        <input type="tel" id="phone" placeholder="+256 700 000 000" required>
+                        <small class="error-msg"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Reservation Date </label>
+                        <input type="date" id="date" required>
+                        <small class="error-msg"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="time">Time </label>
+                        <select id="time" required>
+                            <option value="">Select a time</option>
+                            <option value="12:00 PM">12:00 PM (Lunch)</option>
+                            <option value="02:00 PM">02:00 PM (Lunch)</option>
+                            <option value="06:00 PM">06:00 PM (Dinner)</option>
+                            <option value="08:00 PM">08:00 PM (Dinner)</option>
+                            <option value="10:00 PM">10:00 PM (Late Night)</option>
+                        </select>
+                        <small class="error-msg"></small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="guests">Number of Guests </label>
+                        <select id="guests" required>
+                            <option value="1">1 Person</option>
+                            <option value="2" selected>2 People</option>
+                            <option value="4">4 People</option>
+                            <option value="6">6 People</option>
+                            <option value="8+">8+ People (Large Group)</option>
+                        </select>
+                        <small class="error-msg"></small>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="special-requests">Special Requests (Optional)</label>
+                        <textarea id="special-requests" rows="4"
+                            placeholder="Dietary requirements, birthday setup, high chair, etc."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary submit-btn">Confirm Reservation</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Master Footer -->
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 World Best Kitchen. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script src="reservation.js"></script>
+</body>
+
+</html>
