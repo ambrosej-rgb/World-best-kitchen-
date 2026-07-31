@@ -79,6 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    const contactForm = document.getElementById('contact-form');
+    const formStatus = document.getElementById('form-status');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById('contact-name')?.value?.trim() || 'Website Visitor';
+            const email = document.getElementById('contact-email')?.value?.trim() || 'No email provided';
+            const subject = document.getElementById('contact-subject')?.value?.trim() || 'Website inquiry';
+            const message = document.getElementById('contact-message')?.value?.trim() || 'No message provided';
+
+            const mailtoLink = `mailto:info@worldbestkitchen.com?subject=${encodeURIComponent(`New inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`)}`;
+
+            window.location.href = mailtoLink;
+
+            if (formStatus) {
+                formStatus.textContent = 'Your email app should open with your message ready. If it does not, please email us directly at info@worldbestkitchen.com.';
+            }
+        });
+    }
+
     const menuGrid = document.getElementById('menu-grid');
     const filterButtons = Array.from(document.querySelectorAll('.filter-btn'));
 
