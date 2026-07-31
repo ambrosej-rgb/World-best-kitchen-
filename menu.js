@@ -56,7 +56,7 @@ const menuItems = [
         category: "pizza",
         priceUsd: "$19.00",
         priceUgx: "UGX 70,000",
-        img: "./images/Veggie-Pizza.jpg",
+        img: "./images/veggie-pizza.jpg",
         desc: "White pizza base with roasted wild mushrooms, rosemary, and white truffle oil."
     },
 
